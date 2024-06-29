@@ -5,20 +5,15 @@ const UsuarioBD = require("../bd/UsuariosBD");
 ruta.get("/", async (req,res)=>{
     const usuariobd = new UsuarioBD();
     const usuariosMysql = await usuariobd.mostrarUsuarios();
-    //console.log(usuariosMysql);
+
     var usuariosCorrectos = [];
      usuariosMysql.forEach(usuario => {
          var usuario1 = new UsuarioClase(usuario);
-          //console.log("Usuario 1");
-  
-          //console.log("Usuario 2");
-          //console.log(usuario1);
          if(usuario1.nombre != undefined && usuario1.celular != undefined && usuario1.correo != undefined){
             usuariosCorrectos.push(usuario);
          }
      });
      console.log(usuariosCorrectos);
-
     res.render("mostrarUsuarios",{usuariosCorrectos});
 })
 
@@ -51,7 +46,6 @@ ruta.get("/editarUsuario/:id_usuario", async (req,res)=>{
     try {
         const usuariobd = new UsuarioBD();
         const usuario = await usuariobd.usuarioID(req.params.id_usuario);
-        // console.log(usuario.id_usuario);
         res.render("editarUsuario", usuario);
     } catch (error) {
         console.error("Error al modificar el usuario: "+error);
